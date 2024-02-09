@@ -1,3 +1,4 @@
+#include "optionhandler.h"
 #include "version.h"
 #include <libclr/libclr.h>
 #include <stdio.h>
