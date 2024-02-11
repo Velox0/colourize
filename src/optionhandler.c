@@ -1,5 +1,8 @@
+#include "optionhandler.h"
+#include <libclr/colourmods.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char getoption(const char *opt) {
   if (opt[1] != '-')
@@ -35,4 +38,23 @@ void help(const char *arg) {
          "matching <string>\n");
   printf("  Note: Combining short options is not supported!\n");
   exit(0);
+}
+
+int whichcolour(const char *colour) {
+  int index = -1;
+  char *colour_list[] = {"black",        "red",
+                         "green",        "yellow",
+                         "blue",         "magenta",
+                         "cyan",         "white",
+                         "bright_black", "bright_red",
+                         "bright_green", "bright_yellow",
+                         "bright_blue",  "bright_magenta",
+                         "bright_cyan",  "bright_white"};
+
+  for (int i = 0; i < 16; i++) {
+    if (!strcmp(colour, colour_list[i])) {
+      return i;
+    }
+  }
+  return index;
 }

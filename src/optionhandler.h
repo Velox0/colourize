@@ -1,7 +1,9 @@
 #ifndef CLROPTIONS
 #define CLROPTIONS
 
-void help(const char *arg);
 char getoption(const char *opt);
+void help(const char *arg);
+
+int whichcolour(const char *colour);
 
 #endif
