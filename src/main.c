@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define HELP help(argv[0]);
+
 int main(int argc, char *argv[]) {
 
   chunk begin; // defined in "colourizer.h"
@@ -36,7 +38,7 @@ int main(int argc, char *argv[]) {
       continue;
     } else {
       fprintf(stderr, "Invalid parameter: %s\n\n", argv[arg_index]);
-      help(argv[0]);
+      HELP;
     }
     switch (opt) {
     case 'a':
@@ -54,7 +56,7 @@ int main(int argc, char *argv[]) {
     default:
       fprintf(stderr, "Unknow option: %s\n\n", argv[arg_index]);
     case 'h':
-      help(argv[0]);
+      HELP;
       break;
     }
     // Next arg is matching string
@@ -72,33 +74,15 @@ int main(int argc, char *argv[]) {
       chunks[current_chunk].colour.colour4 = getcolour4(0, arg_index);
     } else {
       fprintf(stderr, "Invalid colour: %s\n\n", argv[arg_index + 2]);
-      help(argv[0]);
+      HELP;
     }
     current_chunk++;
     arg_index += 2;
   }
 
-  // Testing
-  // printf("chunk count: %d\n\n", chunk_count);
-
-  // for (int i = 0; i < chunk_count; i++) {
-  //   printf("Chunk %d\n", i);
-  //   printf("Match: ~%s~\n", chunks[i].match);
-  //   if (chunks[i].type != RESETON)
-  //     printf("Colour: %d\n", chunks[i].colour.colour4);
-  //   printf("\n");
-  // }
-
   while (fgets(buf, sizeof buf, stdin) != NULL) {
     int i = 0;
-    if (begin.colourtype == 4)
-      start4(begin.colour.colour4, NOBG);
-    while (buf[i] >= ' ') {
-      printf("%c", buf[i]);
-      i++;
-    }
-    printf("\n");
+    colourize(buf, begin, chunks, chunk_count);
     buf[i] = '\0';
-    printf("\033[0m");
   }
 }
