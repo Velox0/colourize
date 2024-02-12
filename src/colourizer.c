@@ -1,5 +1,24 @@
 #include "colourizer.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+void chunk_init(chunk chunk) {
+  for (chunk.len = 0; chunk.match[chunk.len]; chunk.len++)
+    ;
+  chunk.kmptable = (int *)malloc(sizeof(int) * chunk.len);
+
+  int j = 0;
+  for (int i = 1; i < chunk.len; i++) {
+    if (chunk.match[i] == chunk.match[j]) {
+      chunk.kmptable[i] = j + 1;
+      j++;
+    } else {
+      j = 0;
+    }
+    // printf("%c%d ", chunk.match[i], chunk.kmptable[i]);
+  }
+  // printf("\n");
+}
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   /*

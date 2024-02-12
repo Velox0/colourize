@@ -17,7 +17,11 @@ typedef struct {
     colour8 colour8;
     colour4 colour4;
   } colour;
+  int *kmptable;
+  int len;
 } chunk;
+
+void chunk_init(chunk chunk);
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count);
 
