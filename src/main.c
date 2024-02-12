@@ -1,24 +1,13 @@
+#include "colourizer.h"
 #include "optionhandler.h"
 #include "version.h"
 #include <libclr/libclr.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// One chunk consists of three arguments --[after|from|...] <string> <colour>
-typedef struct {
-  char *match;
-  int colourtype;
-  enum { FROM, AFTER, RESETON } type;
-  union {
-    colour24 colour24;
-    colour8 colour8;
-    colour4 colour4;
-  } colour;
-} chunk;
-
 int main(int argc, char *argv[]) {
 
-  chunk begin;
+  chunk begin; // defined in "colourizer.h"
   begin.colourtype = -1;
 
   int chunk_count = 0;
@@ -33,20 +22,23 @@ int main(int argc, char *argv[]) {
 
   char buf[4096];
   int current_chunk = 0;
-  for (int i = 1; i < argc; i++) {
-    char ch;
-    if (argv[i][0] == '-') {
-      ch = getoption(argv[i]);
-    } else if (i == 1) {
-      char ch = whichcolour(argv[i]);
+  for (int arg_index = 1; arg_index < argc; arg_index++) {
+    char opt;
+    if (argv[arg_index][0] == '-') {
+      opt = getoption(argv[arg_index]);
+    } else if (arg_index == 1) {
+      char ch = whichcolour(argv[arg_index]);
       if (ch > -1) {
         begin.colour.colour4 = getcolour4(0, ch);
         begin.colourtype = 4;
       } else
-        fprintf(stderr, "Invalid colour: %s\n", argv[1]);
+        fprintf(stderr, "Invalid colour: %s\n\n", argv[1]);
       continue;
+    } else {
+      fprintf(stderr, "Invalid parameter: %s\n\n", argv[arg_index]);
+      help(argv[0]);
     }
-    switch (ch) {
+    switch (opt) {
     case 'a':
       chunks[current_chunk].type = AFTER;
       break;
@@ -60,31 +52,30 @@ int main(int argc, char *argv[]) {
       printf("Colourizer \033[32m" CLRVERSION "\033[0m\n");
       exit(0);
     default:
-      printf("Unknow option: %s\n\n", argv[i]);
+      fprintf(stderr, "Unknow option: %s\n\n", argv[arg_index]);
     case 'h':
       help(argv[0]);
       break;
     }
-
     // Next arg is matching string
-    chunks[current_chunk].match = argv[i + 1];
+    chunks[current_chunk].match = argv[arg_index + 1];
+
     // Reset-on takes no colour argument
     if (chunks[current_chunk].type == RESETON) {
       current_chunk++;
-      i++;
+      arg_index++;
       continue;
     }
     // Next to next argument is the colour
-    int clr = whichcolour(argv[i + 2]);
+    int clr = whichcolour(argv[arg_index + 2]);
     if (clr > 0) {
-      chunks[current_chunk].colour.colour4 = getcolour4(0, i);
+      chunks[current_chunk].colour.colour4 = getcolour4(0, arg_index);
     } else {
-      fprintf(stderr, "Invalid colour: %s\n", argv[i + 2]);
+      fprintf(stderr, "Invalid colour: %s\n\n", argv[arg_index + 2]);
       help(argv[0]);
-      exit(0);
     }
     current_chunk++;
-    i += 2;
+    arg_index += 2;
   }
 
   // Testing
