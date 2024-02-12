@@ -10,7 +10,6 @@ char getoption(const char *opt) {
 
   char *long_options[] = {"from", "after", "reset-on", "version", "help"};
   char short_options[] = "farvh";
-  short_options[0] = 'F';
   int HOWMANYOPTIONS = sizeof(short_options) / sizeof(char) - 1;
 
   for (int i = 0; i < HOWMANYOPTIONS; i++) {

@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   chunk begin;
   begin.colourtype = -1;
 
-  int chunk_count;
+  int chunk_count = 0;
   for (int i = 1; i < argc; i++) {
     if (argv[i][0] == '-') {
       chunk_count++;
@@ -55,7 +55,6 @@ int main(int argc, char *argv[]) {
       break;
     case 'r':
       chunks[current_chunk].type = RESETON;
-
       break;
     case 'v':
       printf("Colourizer \033[32m" CLRVERSION "\033[0m\n");
@@ -66,21 +65,38 @@ int main(int argc, char *argv[]) {
       help(argv[0]);
       break;
     }
+
+    // Next arg is matching string
     chunks[current_chunk].match = argv[i + 1];
+    // Reset-on takes no colour argument
     if (chunks[current_chunk].type == RESETON) {
+      current_chunk++;
       i++;
       continue;
     }
+    // Next to next argument is the colour
     int clr = whichcolour(argv[i + 2]);
-    if (clr < 0) {
+    if (clr > 0) {
+      chunks[current_chunk].colour.colour4 = getcolour4(0, i);
+    } else {
       fprintf(stderr, "Invalid colour: %s\n", argv[i + 2]);
       help(argv[0]);
       exit(0);
-    } else {
-      chunks[current_chunk].colour.colour4 = getcolour4(i, NOBG);
     }
+    current_chunk++;
     i += 2;
   }
+
+  // Testing
+  // printf("chunk count: %d\n\n", chunk_count);
+
+  // for (int i = 0; i < chunk_count; i++) {
+  //   printf("Chunk %d\n", i);
+  //   printf("Match: ~%s~\n", chunks[i].match);
+  //   if (chunks[i].type != RESETON)
+  //     printf("Colour: %d\n", chunks[i].colour.colour4);
+  //   printf("\n");
+  // }
 
   while (fgets(buf, sizeof buf, stdin) != NULL) {
     int i = 0;
