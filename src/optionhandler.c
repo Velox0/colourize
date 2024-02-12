@@ -28,14 +28,17 @@ void help(const char *arg) {
   char red[] = "\033[0;31m";
   char green[] = "\033[0;32m";
   char normal[] = "\033[0;0m";
+
   printf("Usage: %scommand %s|%s %s %s[OPTIONS]%s\n", green, red, green, arg,
          red, normal);
-  printf("  -a, --after    <string> <colour>\tafter matching <string> format "
-         "text to <colour>\n");
-  printf("  -f, --from     <string> <colour>\tfrom matching <string> format "
-         "text to <colour>\n");
-  printf("  -r, --reset-on <string> <colour>\treset colour to normal after "
-         "matching <string>\n");
+
+  printf("  -a, --after    \t"
+         "Apply <colour> formatting to text after matching <string>\n");
+  printf("  -f, --from     \t"
+         "Apply <colour> formatting to text starting from the match of <string>"
+         "\n");
+  printf("  -r, --reset-on \t"
+         "Reset text colour to normal after matching <string>\n");
   printf("  Note: Combining short options is not supported!\n");
   exit(0);
 }
