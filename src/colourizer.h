@@ -21,7 +21,7 @@ typedef struct {
   int len;
 } chunk;
 
-void chunk_init(chunk chunk);
+void chunk_init(chunk *chunk);
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count);
 

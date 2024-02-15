@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     // Next arg is matching string
     chunks[current_chunk].match = argv[arg_index + 1];
 
-    chunk_init(chunks[current_chunk]);
+    chunk_init(&chunks[current_chunk]);
 
     // Reset-on takes no colour argument
     if (chunks[current_chunk].type == RESETON) {
