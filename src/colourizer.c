@@ -20,6 +20,28 @@ void chunk_init(chunk *chunk) {
   // printf("\n");
 }
 
+int match(chunk chunk, const char *str, int start, int f) {
+  if (f && chunk.type == FROM)
+    start += strlen(chunk.match);
+  int i, j = 0;
+  for (i = start; str[i] && chunk.match[j]; i++) {
+    if (chunk.match[j] == str[i]) {
+      j++;
+    } else
+      j = chunk.kmptable[j];
+  }
+  if (chunk.match[j]) {
+    return -1;
+  }
+  switch (chunk.type) {
+  case FROM:
+    return i - j;
+  case AFTER:
+  case RESETON:
+    return i;
+  }
+}
+
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   /*
     index of currently active chunk

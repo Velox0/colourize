@@ -23,6 +23,9 @@ typedef struct {
 
 void chunk_init(chunk *chunk);
 
+// position of matching string
+int match(chunk chunk, const char *str, int start, int f);
+
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count);
 
 #endif /*COLOURIZERDEF*/
