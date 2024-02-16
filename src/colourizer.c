@@ -34,12 +34,12 @@ int match(chunk chunk, const char *str, int start, int f) {
     } else
       j = chunk.kmptable[j];
   }
-  if (chunk.match[j]) {
+  if (j != strlen(chunk.match)) {
     return -1;
   }
   switch (chunk.type) {
   case FROM:
-    return i - j;
+    return i - strlen(chunk.match);
   case AFTER:
   case RESETON:
     return i;
@@ -56,13 +56,13 @@ void sort(int *index, int *chunk_index, int matches) {
     }
 
     // swap indicis and chunk_index
-    index[i] = index[i] + index[j];
-    index[j] = index[i] - index[j];
-    index[i] = index[i] - index[j];
+    index[i] = index[i] + index[min];
+    index[min] = index[i] - index[min];
+    index[i] = index[i] - index[min];
 
-    chunk_index[i] = chunk_index[i] + chunk_index[j];
-    chunk_index[j] = chunk_index[i] - chunk_index[j];
-    chunk_index[i] = chunk_index[i] - chunk_index[j];
+    chunk_index[i] = chunk_index[i] + chunk_index[min];
+    chunk_index[min] = chunk_index[i] - chunk_index[min];
+    chunk_index[i] = chunk_index[i] - chunk_index[min];
   }
 
   // for (int i = 0; i < matches; i++) {
@@ -118,14 +118,23 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   }
 
   int current_match = 0;
-  for (int i = 0; str[i]; i++) {
+  int i;
+  for (i = 0; str[i] && current_match < matches; i++) {
 
     if (i == indicies[current_match]) {
-      start4(chunks[matching_chunk[current_match]].colour.colour4, NOBG);
+      if (chunks[matching_chunk[current_match]].type == RESETON) {
+        start4(begin.colour.colour4, NOBG);
+      } else {
+        start4(chunks[matching_chunk[current_match]].colour.colour4, NOBG);
+      }
       current_match++;
     }
 
     printf("%c", str[i]);
+  }
+
+  while (str[i]) {
+    printf("%c", str[i++]);
   }
 
   free(indicies);
