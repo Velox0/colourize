@@ -1,10 +1,7 @@
 #include "colourizer.h"
-#include <libclr/colourmods.h>
-#include <libclr/display.h>
+#include <libclr/libclr.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <threads.h>
 
 void chunk_init(chunk *chunk) {
   for (chunk->len = 0; chunk->match[chunk->len]; chunk->len++)
