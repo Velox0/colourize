@@ -29,7 +29,7 @@ By default, the color definitions are read from `~/.config/colourizer/preset`.
 ## Example
 
 ```bash
-stat README.md | clr green --after "Access:" white --after "File:" red --after "Gid:" cyan
+stat README.md | ./clr red --after velox green --from velox blue --from "+" cyan --after ": " green
 ```
 
 <img src="./images/example.png"></src>
