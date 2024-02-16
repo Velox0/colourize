@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     // Next to next argument is the colour
     int clr = whichcolour(argv[arg_index + 2]);
     if (clr > 0) {
-      chunks[current_chunk].colour.colour4 = getcolour4(0, arg_index);
+      chunks[current_chunk].colour.colour4 = getcolour4(0, clr);
     } else {
       fprintf(stderr, "Invalid colour: %s\n\n", argv[arg_index + 2]);
       HELP;

@@ -43,7 +43,6 @@ void help(const char *arg) {
 }
 
 int whichcolour(const char *colour) {
-  int index = -1;
   char *colour_list[] = {"black",        "red",
                          "green",        "yellow",
                          "blue",         "magenta",
@@ -58,5 +57,5 @@ int whichcolour(const char *colour) {
       return i;
     }
   }
-  return index;
+  return -1;
 }

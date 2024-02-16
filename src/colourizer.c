@@ -1,7 +1,10 @@
 #include "colourizer.h"
+#include <libclr/colourmods.h>
+#include <libclr/display.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <threads.h>
 
 void chunk_init(chunk *chunk) {
   for (chunk->len = 0; chunk->match[chunk->len]; chunk->len++)
@@ -41,6 +44,30 @@ int match(chunk chunk, const char *str, int start, int f) {
   case RESETON:
     return i;
   }
+}
+
+void sort(int *index, int *chunk_index, int matches) {
+  int i, j;
+  for (i = 0; i < matches - 1; i++) {
+    int min = i;
+    for (j = i + 1; j < matches; j++) {
+      if (index[min] > index[j])
+        min = j;
+    }
+
+    // swap indicis and chunk_index
+    index[i] = index[i] + index[j];
+    index[j] = index[i] - index[j];
+    index[i] = index[i] - index[j];
+
+    chunk_index[i] = chunk_index[i] + chunk_index[j];
+    chunk_index[j] = chunk_index[i] - chunk_index[j];
+    chunk_index[i] = chunk_index[i] - chunk_index[j];
+  }
+
+  // for (int i = 0; i < matches; i++) {
+  //   printf("%d\n", index[i]);
+  // }
 }
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
@@ -84,11 +111,20 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
     f = 1;
   }
 
+  sort(indicies, matching_chunk, matches);
+
   if (begin.colourtype == 4) {
     start4(begin.colour.colour4, NOBG);
   }
 
+  int current_match = 0;
   for (int i = 0; str[i]; i++) {
+
+    if (i == indicies[current_match]) {
+      start4(chunks[matching_chunk[current_match]].colour.colour4, NOBG);
+      current_match++;
+    }
+
     printf("%c", str[i]);
   }
 
