@@ -26,6 +26,14 @@ This command outputs the standard input in red. After encountering `: `, it form
 
 By default, the color definitions are read from `~/.config/colourizer/preset`.
 
+## Example
+
+```bash
+stat README.md | clr green --after "Access:" white --after "File:" red --after "Gid:" cyan
+```
+
+<img src="./images/example.png"></src>
+
 # Customization
 
 To customize color presets, you can modify the configuration file located at `~/.config/colourizer/preset`. This file defines the default color mappings.
