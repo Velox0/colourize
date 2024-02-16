@@ -26,20 +26,20 @@ void chunk_init(chunk *chunk) {
 
 int match(chunk chunk, const char *str, int start, int f) {
   if (f && chunk.type == FROM)
-    start += strlen(chunk.match);
+    start += chunk.len;
   int i, j = 0;
-  for (i = start; str[i] && chunk.match[j]; i++) {
+  for (i = start; str[i] != 0 && j < chunk.len; i++) {
     if (chunk.match[j] == str[i]) {
       j++;
     } else
       j = chunk.kmptable[j];
   }
-  if (j != strlen(chunk.match)) {
+  if (j != chunk.len) {
     return -1;
   }
   switch (chunk.type) {
   case FROM:
-    return i - strlen(chunk.match);
+    return i - chunk.len;
   case AFTER:
   case RESETON:
     return i;
@@ -48,7 +48,7 @@ int match(chunk chunk, const char *str, int start, int f) {
 
 void sort(int *index, int *chunk_index, int matches) {
   int i, j;
-  for (i = 0; i < matches - 1; i++) {
+  for (i = 0; i < matches; i++) {
     int min = i;
     for (j = i + 1; j < matches; j++) {
       if (index[min] > index[j])
@@ -56,13 +56,13 @@ void sort(int *index, int *chunk_index, int matches) {
     }
 
     // swap indicis and chunk_index
-    index[i] = index[i] + index[min];
-    index[min] = index[i] - index[min];
-    index[i] = index[i] - index[min];
+    int temp = index[min];
+    index[min] = index[i];
+    index[i] = temp;
 
-    chunk_index[i] = chunk_index[i] + chunk_index[min];
-    chunk_index[min] = chunk_index[i] - chunk_index[min];
-    chunk_index[i] = chunk_index[i] - chunk_index[min];
+    temp = chunk_index[min];
+    chunk_index[min] = chunk_index[i];
+    chunk_index[i] = temp;
   }
 
   // for (int i = 0; i < matches; i++) {
