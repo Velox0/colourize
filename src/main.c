@@ -70,12 +70,25 @@ int main(int argc, char *argv[]) {
       arg_index++;
       continue;
     }
+
     // Next to next argument is the colour
-    int clr = whichcolour(argv[arg_index + 2]);
-    if (clr > 0) {
+    char *colourarg = argv[arg_index + 2];
+    int clr = whichcolour(colourarg);
+
+    if (clr > -1) {
+      chunks[current_chunk].colourtype = 4;
       chunks[current_chunk].colour.colour4 = getcolour4(0, clr);
-    } else {
-      fprintf(stderr, "Invalid colour: %s\n\n", argv[arg_index + 2]);
+    }
+
+    else if (colourarg[0] == '#') {
+      chunks[current_chunk].colourtype = 24;
+      newcolour24(chunks[current_chunk].colour.colour24);
+      chunks[current_chunk].colour.colour24[BCID] = 0;
+      hexto24(chunks[current_chunk].colour.colour24, NULL, colourarg);
+    }
+
+    else {
+      fprintf(stderr, "Invalid colour: %s\n\n", colourarg);
       HELP;
     }
     current_chunk++;
