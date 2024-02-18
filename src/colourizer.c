@@ -16,9 +16,7 @@ void chunk_init(chunk *chunk) {
     } else {
       j = 0;
     }
-    // printf("%c%d ", chunk.match[i], chunk.kmptable[i]);
   }
-  // printf("\n");
 }
 
 int match(chunk chunk, const char *str, int start, int f) {
@@ -28,8 +26,15 @@ int match(chunk chunk, const char *str, int start, int f) {
   for (i = start; str[i] != 0 && j < chunk.len; i++) {
     if (chunk.match[j] == str[i]) {
       j++;
-    } else
+    } else if (j > 0) {
+      if (chunk.kmptable[j - 1] == j - 1 &&
+          chunk.match[j - 1] == chunk.match[0])
+        j = j;
+      else
+        j = chunk.kmptable[j];
+    } else {
       j = chunk.kmptable[j];
+    }
   }
   if (j != chunk.len) {
     return -1;
