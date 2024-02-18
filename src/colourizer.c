@@ -1,4 +1,5 @@
 #include "colourizer.h"
+#include <libclr/display.h>
 #include <libclr/libclr.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,6 +73,16 @@ void sort(int *index, int *chunk_index, int matches) {
   // }
 }
 
+void start_colour(chunk idk, chunk begin) {
+  if (idk.type == RESETON) {
+    start4(begin.colour.colour4, NOBG);
+  } else if (idk.colourtype == 4) {
+    start4(idk.colour.colour4, NOBG);
+  } else if (idk.colourtype == 24) {
+    start24(idk.colour.colour24);
+  }
+}
+
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   /*
     index of currently active chunk
@@ -124,11 +135,7 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   for (i = 0; str[i] && current_match < matches; i++) {
 
     if (i == indicies[current_match]) {
-      if (chunks[matching_chunk[current_match]].type == RESETON) {
-        start4(begin.colour.colour4, NOBG);
-      } else {
-        start4(chunks[matching_chunk[current_match]].colour.colour4, NOBG);
-      }
+      start_colour(chunks[matching_chunk[current_match]], begin);
       current_match++;
     }
 
