@@ -40,10 +40,17 @@ int main(int argc, char *argv[]) {
       fprintf(stderr, "Invalid parameter: %s\n\n", argv[arg_index]);
       HELP;
     }
+
+    int ctype = 4;
+
     switch (opt) {
+    case 'A':
+      ctype = 24;
     case 'a':
       chunks[current_chunk].type = AFTER;
       break;
+    case 'F':
+      ctype = 24;
     case 'f':
       chunks[current_chunk].type = FROM;
       break;
@@ -75,12 +82,12 @@ int main(int argc, char *argv[]) {
     char *colourarg = argv[arg_index + 2];
     int clr = whichcolour(colourarg);
 
-    if (clr > -1) {
+    if (clr > -1 && ctype == 4) {
       chunks[current_chunk].colourtype = 4;
       chunks[current_chunk].colour.colour4 = getcolour4(0, clr);
     }
 
-    else if (colourarg[0] == '#') {
+    else if (colourarg[0] == '#' || ctype == 24) {
       chunks[current_chunk].colourtype = 24;
       newcolour24(chunks[current_chunk].colour.colour24);
       chunks[current_chunk].colour.colour24[BCID] = 0;
