@@ -40,12 +40,12 @@ To customize color presets, you can modify the configuration file located at `~/
 
 # TODO
 
-- fix kmp implementation
-- 8 bit colour support
-- config file support
-- more string matching options:
-  - `--fromx`, `--afterx`; for hex colour
-  - `--from0`, `--after0`; for 8 bit
-  - `--match`, `--matchx`, `--match0`; only colour matching string
+- [ ] fix kmp implementation
+- [ ] 8 bit colour support
+- [ ] config file support
+- [ ] more string matching options:
+  - [x] `--fromx`, `--afterx`; for hex colour
+  - [ ] `--from0`, `--after0`; for 8 bit
+  - [ ] `--match`, `--matchx`, `--match0`; only colour matching string
 
 <em>Note: The tool is currently under development, and improvements are ongoing.</em>
