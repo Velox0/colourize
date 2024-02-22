@@ -1,4 +1,5 @@
 #include "colourizer.h"
+#include <libclr/colourmods.h>
 #include <libclr/display.h>
 #include <libclr/libclr.h>
 #include <stdio.h>
@@ -73,9 +74,20 @@ void sort(int *index, int *chunk_index, int matches) {
   // }
 }
 
-void start_colour(chunk idk, chunk begin) {
+void start_colour(chunk idk, chunk begin, chunk before) {
+  if (before.colourtype == idk.colourtype) {
+    if (before.colourtype == 4) {
+      if (before.colour.colour4 == idk.colour.colour4)
+        return;
+    } else if (difference24(before.colour.colour24, idk.colour.colour24) == 0) {
+      return;
+    }
+  }
   if (idk.type == RESETON) {
-    start4(begin.colour.colour4, NOBG);
+    if (begin.colourtype == 4)
+      start4(begin.colour.colour4, NOBG);
+    else
+      printf("\033[0m");
   } else if (idk.colourtype == 4) {
     start4(idk.colour.colour4, NOBG);
   } else if (idk.colourtype == 24) {
@@ -135,7 +147,11 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   for (i = 0; str[i] && current_match < matches; i++) {
 
     if (i == indicies[current_match]) {
-      start_colour(chunks[matching_chunk[current_match]], begin);
+      if (current_match == 0)
+        start_colour(chunks[matching_chunk[current_match]], begin, begin);
+      else
+        start_colour(chunks[matching_chunk[current_match]], begin,
+                     chunks[matching_chunk[current_match - 1]]);
       current_match++;
     }
 
