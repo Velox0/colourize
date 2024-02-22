@@ -74,24 +74,26 @@ void sort(int *index, int *chunk_index, int matches) {
   // }
 }
 
-void start_colour(chunk idk, chunk begin, chunk before) {
-  if (before.colourtype == idk.colourtype) {
+void start_colour(chunk current, chunk begin, chunk before) {
+  if (before.colourtype == current.colourtype) {
     if (before.colourtype == 4) {
-      if (before.colour.colour4 == idk.colour.colour4)
+      if (before.colour.colour4 == current.colour.colour4)
         return;
-    } else if (difference24(before.colour.colour24, idk.colour.colour24) == 0) {
+    } else if (difference24(before.colour.colour24, current.colour.colour24) ==
+               0) {
       return;
     }
   }
-  if (idk.type == RESETON) {
+
+  if (current.type == RESETON) {
     if (begin.colourtype == 4)
       start4(begin.colour.colour4, NOBG);
     else
       printf("\033[0m");
-  } else if (idk.colourtype == 4) {
-    start4(idk.colour.colour4, NOBG);
-  } else if (idk.colourtype == 24) {
-    start24(idk.colour.colour24);
+  } else if (current.colourtype == 4) {
+    start4(current.colour.colour4, NOBG);
+  } else if (current.colourtype == 24) {
+    start24(current.colour.colour24);
   }
 }
 
@@ -145,6 +147,10 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   int current_match = 0;
   int i;
   for (i = 0; str[i] && current_match < matches; i++) {
+    if (str[i] == '\n') {
+      printf("\033[0m\n");
+      continue;
+    }
 
     if (i == indicies[current_match]) {
       if (current_match == 0)

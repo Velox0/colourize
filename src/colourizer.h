@@ -28,7 +28,7 @@ void sort(int *index, int *chunk_index, int matches);
 // position of matching string
 int match(chunk chunk, const char *str, int start, int f);
 
-void start_colour(chunk idk, chunk begin, chunk before);
+void start_colour(chunk current, chunk begin, chunk before);
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count);
 
