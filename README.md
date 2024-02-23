@@ -34,6 +34,8 @@ stat README.md | clr red --after velox green --from velox blue --from "+" cyan -
 
 <img src="./images/example.png"></src>
 
+Valid colours include hexadecimal colours and `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `bright_black`, `bright_red`, `bright_green`, and so on.
+
 # Customization
 
 To customize color presets, you can modify the configuration file located at `~/.config/colourizer/preset`. This file defines the default color mappings.
