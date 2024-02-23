@@ -3,6 +3,7 @@
 */
 
 #include <libclr/libclr.h>
+#include <stdbool.h>
 
 #ifndef COLOURIZERDEF
 #define COLOURIZERDEF
@@ -27,6 +28,8 @@ void sort(int *index, int *chunk_index, int matches);
 
 // position of matching string
 int match(chunk chunk, const char *str, int start, int f);
+
+bool is_different_colour(chunk A, chunk B);
 
 void start_colour(chunk current, chunk begin, chunk before);
 

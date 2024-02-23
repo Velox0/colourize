@@ -74,16 +74,21 @@ void sort(int *index, int *chunk_index, int matches) {
   // }
 }
 
-void start_colour(chunk current, chunk begin, chunk before) {
-  if (before.colourtype == current.colourtype) {
-    if (before.colourtype == 4) {
-      if (before.colour.colour4 == current.colour.colour4)
-        return;
-    } else if (difference24(before.colour.colour24, current.colour.colour24) ==
-               0) {
-      return;
+bool is_different_colour(chunk A, chunk B) {
+  if (A.colourtype == B.colourtype) {
+    if (A.colourtype == 4) {
+      if (A.colour.colour4 == B.colour.colour4)
+        return 0;
+    } else if (difference24(A.colour.colour24, B.colour.colour24) == 0) {
+      return 0;
     }
   }
+  return 1;
+}
+
+void start_colour(chunk current, chunk begin, chunk before) {
+  if (!is_different_colour(current, before))
+    return;
 
   if (current.type == RESETON) {
     if (begin.colourtype == 4)
