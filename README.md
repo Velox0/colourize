@@ -29,7 +29,7 @@ By default, the color definitions are read from `~/.config/colourizer/preset`.
 ## Example
 
 ```bash
-stat README.md | ./clr red --after velox green --from velox blue --from "+" cyan --after ": " green
+stat README.md | clr red --after velox green --from velox blue --from "+" cyan --after ": " green
 ```
 
 <img src="./images/example.png"></src>
@@ -37,6 +37,10 @@ stat README.md | ./clr red --after velox green --from velox blue --from "+" cyan
 # Customization
 
 To customize color presets, you can modify the configuration file located at `~/.config/colourizer/preset`. This file defines the default color mappings.
+
+# Installation
+
+Make sure you have [libclr](https://www.github.com/velox0/libclr) installed. Then run `./install.sh`.
 
 # TODO
 
