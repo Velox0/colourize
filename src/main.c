@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
       chunks[current_chunk].type = RESETON;
       break;
     case 'v':
-      printf("Colourizer \033[31m" CLRVERSION "\033[0m\n");
+      printf("Colourizer \033[30m" CLRVERSION "\033[0m\n");
       exit(0);
     default:
       fprintf(stderr, "Unknow option: %s\n\n", argv[arg_index]);
