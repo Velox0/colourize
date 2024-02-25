@@ -1,6 +1,7 @@
 #include "colourizer.h"
 #include "optionhandler.h"
 #include "version.h"
+#include <libclr/colourmods.h>
 #include <libclr/libclr.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +34,12 @@ int main(int argc, char *argv[]) {
       if (ch > -1) {
         begin.colour.colour4 = getcolour4(0, ch);
         begin.colourtype = 4;
-      } else
-        fprintf(stderr, "Invalid colour: %s\n\n", argv[1]);
+      } else {
+        newcolour24(begin.colour.colour24);
+        resetbg24(begin.colour.colour24);
+        hexto24(begin.colour.colour24, NULL, argv[1]);
+        begin.colourtype = 24;
+      }
       continue;
     } else {
       fprintf(stderr, "Invalid parameter: %s\n\n", argv[arg_index]);

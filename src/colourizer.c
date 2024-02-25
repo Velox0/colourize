@@ -147,6 +147,8 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
 
   if (begin.colourtype == 4) {
     start4(begin.colour.colour4, NOBG);
+  } else if (begin.colourtype == 24) {
+    start24(begin.colour.colour24);
   }
 
   int current_match = 0;
@@ -169,12 +171,12 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
     printf("%c", str[i]);
   }
 
+  free(indicies);
+  free(matching_chunk);
+
   while (str[i]) {
     printf("%c", str[i++]);
   }
-
-  free(indicies);
-  free(matching_chunk);
 
   // reset colour
   printf("\033[0m");
