@@ -37,8 +37,9 @@ int main(int argc, char *argv[]) {
       } else {
         newcolour24(begin.colour.colour24);
         resetbg24(begin.colour.colour24);
-        hexto24(begin.colour.colour24, NULL, argv[1]);
-        begin.colourtype = 24;
+        int stat = hexto24(begin.colour.colour24, NULL, argv[1]);
+        if (stat != -1)
+          begin.colourtype = 24;
       }
       continue;
     } else {
@@ -93,10 +94,15 @@ int main(int argc, char *argv[]) {
     }
 
     else if (colourarg[0] == '#' || ctype == 24) {
-      chunks[current_chunk].colourtype = 24;
-      newcolour24(chunks[current_chunk].colour.colour24);
       chunks[current_chunk].colour.colour24[BCID] = 0;
-      hexto24(chunks[current_chunk].colour.colour24, NULL, colourarg);
+      newcolour24(chunks[current_chunk].colour.colour24);
+      resetbg24(chunks[current_chunk].colour.colour24);
+      int stat =
+          hexto24(chunks[current_chunk].colour.colour24, NULL, colourarg);
+      if (stat == -1)
+        fprintf(stderr, "Invalid colour: %s\n\n", colourarg);
+      else
+        chunks[current_chunk].colourtype = 24;
     }
 
     else {
