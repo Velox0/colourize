@@ -35,13 +35,9 @@ int main(int argc, char *argv[]) {
     }
 
     switch (opt) {
-    case 'A':
-      chunks[current_chunk].colourtype = 24;
     case 'a':
       chunks[current_chunk].type = AFTER;
       break;
-    case 'F':
-      chunks[current_chunk].colourtype = 24;
     case 'f':
       chunks[current_chunk].type = FROM;
       break;

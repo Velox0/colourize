@@ -9,9 +9,8 @@ char get_option(const char *opt) {
   if (opt[1] != '-')
     return opt[1];
 
-  char *long_options[] = {"after",    "from",    "afterx", "fromx",
-                          "reset-on", "version", "help"};
-  char short_options[] = "afAFrvh";
+  char *long_options[] = {"after", "from", "reset-on", "version", "help"};
+  char short_options[] = "afrvh";
   int HOWMANYOPTIONS = sizeof(short_options) / sizeof(char) - 1;
 
   for (int i = 0; i < HOWMANYOPTIONS; i++) {
