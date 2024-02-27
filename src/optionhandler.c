@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char getoption(const char *opt) {
+char get_option(const char *opt) {
   if (opt[1] != '-')
     return opt[1];
 

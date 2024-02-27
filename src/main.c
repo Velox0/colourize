@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   for (int arg_index = 1; arg_index < argc; arg_index++) {
     char opt;
     if (argv[arg_index][0] == '-') {
-      opt = getoption(argv[arg_index]);
+      opt = get_option(argv[arg_index]);
     } else if (arg_index == 1) {
       give_colour(&begin, argv[1]);
       continue;
