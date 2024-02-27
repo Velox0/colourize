@@ -1,4 +1,5 @@
 #include "optionhandler.h"
+#include "colourizer.h"
 #include <libclr/colourmods.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +44,7 @@ void help(const char *arg) {
   exit(0);
 }
 
-int whichcolour(const char *colour) {
+void give_colour(chunk *the, const char *colour) {
   char *colour_list[] = {"black",        "red",
                          "green",        "yellow",
                          "blue",         "magenta",
@@ -55,8 +56,19 @@ int whichcolour(const char *colour) {
 
   for (int i = 0; i < 16; i++) {
     if (!strcmp(colour, colour_list[i])) {
-      return i;
+      the->colourtype = 4;
+      the->colour.colour4 = getcolour4(0, i);
+      return;
     }
   }
-  return -1;
+
+  the->colourtype = 24;
+  the->colour.colour24[BCID] = 0;
+  newcolour24(the->colour.colour24);
+  resetbg24(the->colour.colour24);
+  int stat = hexto24(the->colour.colour24, NULL, colour);
+  if (stat == -1) {
+    the->colourtype = -1;
+    fprintf(stderr, "Invalid colour: %s\n\n", colour);
+  }
 }

@@ -30,33 +30,18 @@ int main(int argc, char *argv[]) {
     if (argv[arg_index][0] == '-') {
       opt = getoption(argv[arg_index]);
     } else if (arg_index == 1) {
-      char ch = whichcolour(argv[arg_index]);
-      if (ch > -1) {
-        begin.colour.colour4 = getcolour4(0, ch);
-        begin.colourtype = 4;
-      } else {
-        newcolour24(begin.colour.colour24);
-        resetbg24(begin.colour.colour24);
-        int stat = hexto24(begin.colour.colour24, NULL, argv[1]);
-        if (stat != -1)
-          begin.colourtype = 24;
-      }
+      give_colour(&begin, argv[1]);
       continue;
-    } else {
-      fprintf(stderr, "Invalid parameter: %s\n\n", argv[arg_index]);
-      HELP;
     }
-
-    int ctype = 4;
 
     switch (opt) {
     case 'A':
-      ctype = 24;
+      chunks[current_chunk].colourtype = 24;
     case 'a':
       chunks[current_chunk].type = AFTER;
       break;
     case 'F':
-      ctype = 24;
+      chunks[current_chunk].colourtype = 24;
     case 'f':
       chunks[current_chunk].type = FROM;
       break;
@@ -73,6 +58,10 @@ int main(int argc, char *argv[]) {
       break;
     }
     // Next arg is matching string
+    if (arg_index + 1 >= argc) {
+      fprintf(stderr, "No string specified\n\n");
+      HELP;
+    }
     chunks[current_chunk].match = argv[arg_index + 1];
 
     chunk_init(&chunks[current_chunk]);
@@ -85,30 +74,12 @@ int main(int argc, char *argv[]) {
     }
 
     // Next to next argument is the colour
-    char *colourarg = argv[arg_index + 2];
-    int clr = whichcolour(colourarg);
-
-    if (clr > -1 && ctype == 4) {
-      chunks[current_chunk].colourtype = 4;
-      chunks[current_chunk].colour.colour4 = getcolour4(0, clr);
-    }
-
-    else if (colourarg[0] == '#' || ctype == 24) {
-      chunks[current_chunk].colour.colour24[BCID] = 0;
-      newcolour24(chunks[current_chunk].colour.colour24);
-      resetbg24(chunks[current_chunk].colour.colour24);
-      int stat =
-          hexto24(chunks[current_chunk].colour.colour24, NULL, colourarg);
-      if (stat == -1)
-        fprintf(stderr, "Invalid colour: %s\n\n", colourarg);
-      else
-        chunks[current_chunk].colourtype = 24;
-    }
-
-    else {
-      fprintf(stderr, "Invalid colour: %s\n\n", colourarg);
+    if (arg_index + 2 >= argc) {
+      fprintf(stderr, "No colour specified\n\n");
       HELP;
     }
+    char *colourarg = argv[arg_index + 2];
+    give_colour(&chunks[current_chunk], colourarg);
     current_chunk++;
     arg_index += 2;
   }

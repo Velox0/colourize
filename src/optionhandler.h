@@ -1,9 +1,10 @@
 #ifndef CLROPTIONS
 #define CLROPTIONS
+#include "colourizer.h"
 
 char getoption(const char *opt);
 void help(const char *arg);
 
-int whichcolour(const char *colour);
+void give_colour(chunk *the, const char *colour);
 
 #endif
