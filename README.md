@@ -48,8 +48,6 @@ Make sure you have [libclr](https://www.github.com/velox0/libclr) installed. The
 
 - [ ] fix kmp implementation
 - [ ] config file support
-- [ ] more string matching options:
-  - [x] `--fromx`, `--afterx`; for hex colour
-  - [ ] `--match`, `--matchx` only colour matching string
+- [ ] `--match` option; only colour matching string
 
 <em>Note: The tool is currently under development, and improvements are ongoing.</em>
