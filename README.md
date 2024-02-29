@@ -29,7 +29,7 @@ By default, the color definitions are read from `~/.config/colourizer/preset`.
 ## Example
 
 ```bash
-stat README.md | clr red --after velox green --from velox blue --from "+" cyan --after ": " green
+stat README.md | clr bright_red --after Access: 55ccff
 ```
 
 <img src="./images/example.png"></src>
