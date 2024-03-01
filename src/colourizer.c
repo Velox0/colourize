@@ -119,10 +119,12 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
                                                     // will increase if required
 
   for (int j = 0, start = 0, f = 0; j < chunk_count;) {
+    // skip if no colour type
     if (chunks[j].colourtype == -1) {
       j++;
       continue;
     }
+
     int ind = match(chunks[j], str, start, f);
 
     if (ind == -1) {

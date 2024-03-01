@@ -22,8 +22,6 @@ int main(int argc, char *argv[]) {
   }
 
   chunk chunks[chunk_count];
-
-  char buf[4096];
   int current_chunk = 0;
   for (int arg_index = 1; arg_index < argc; arg_index++) {
     char opt;
@@ -80,6 +78,7 @@ int main(int argc, char *argv[]) {
     arg_index += 2;
   }
 
+  char buf[4096];
   while (fgets(buf, sizeof buf, stdin) != NULL) {
     int i = 0;
     colourize(buf, begin, chunks, chunk_count);
