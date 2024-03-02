@@ -11,31 +11,35 @@ void chunk_init(chunk *chunk) {
   chunk->kmptable = (int *)malloc(sizeof(int) * chunk->len);
 
   int j = 0;
-  for (int i = 1; i < chunk->len; i++) {
+  for (int i = 1; i < chunk->len;) {
     if (chunk->match[i] == chunk->match[j]) {
-      chunk->kmptable[i] = j + 1;
       j++;
+      chunk->kmptable[i] = j;
+      i++;
     } else {
-      j = 0;
+      if (j != 0)
+        j = chunk->kmptable[j - 1];
+      else {
+        chunk->kmptable[i] = 0;
+        i++;
+      }
     }
   }
+  printf("%s\n", chunk->match);
 }
 
 int match(chunk chunk, const char *str, int start, int f) {
   if (f && chunk.type == FROM)
     start += chunk.len;
   int i, j = 0;
-  for (i = start; str[i] != 0 && j < chunk.len; i++) {
+  for (i = start; str[i] != 0 && j < chunk.len;) {
     if (chunk.match[j] == str[i]) {
       j++;
+      i++;
     } else if (j > 0) {
-      if (chunk.kmptable[j - 1] == j - 1 &&
-          chunk.match[j - 1] == chunk.match[0])
-        j = j;
-      else
-        j = chunk.kmptable[j];
+      j = chunk.kmptable[j - 1];
     } else {
-      j = chunk.kmptable[j];
+      i++;
     }
   }
   if (j != chunk.len) {

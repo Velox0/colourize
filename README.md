@@ -46,7 +46,7 @@ Make sure you have [libclr](https://www.github.com/velox0/libclr) installed. The
 
 # TODO
 
-- [ ] fix kmp implementation
+- [x] fix kmp implementation
 - [ ] config file support
 - [ ] `--match` option; only colour matching string
 
