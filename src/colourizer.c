@@ -25,7 +25,6 @@ void chunk_init(chunk *chunk) {
       }
     }
   }
-  printf("%s\n", chunk->match);
 }
 
 int match(chunk chunk, const char *str, int start, int f) {
