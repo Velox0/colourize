@@ -44,6 +44,17 @@ void help(const char *arg) {
 }
 
 void give_colour(chunk *the, const char *colour) {
+  // Check for terminal colour support
+  FILE *fp = popen("tput colors", "r");
+  int clrsupport = 4;
+  if (fp != NULL) {
+    char buffer[10];
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+      clrsupport = atoi(buffer);
+    }
+    pclose(fp);
+  }
+
   char *colour_list[] = {"black",        "red",
                          "green",        "yellow",
                          "blue",         "magenta",
@@ -69,5 +80,11 @@ void give_colour(chunk *the, const char *colour) {
   if (stat == -1) {
     the->colourtype = -1;
     fprintf(stderr, "Invalid colour: %s\n\n", colour);
+    return;
+  }
+
+  if (clrsupport < 256) {
+    the->colourtype = 4;
+    the->colour.colour4 = tocolour4(the->colour.colour24, FG);
   }
 }
