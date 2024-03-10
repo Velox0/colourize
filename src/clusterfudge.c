@@ -1,18 +1,17 @@
 #include "colourizer.h"
 #include <stdbool.h>
-#include <stdlib.h>
 
-int compare(char a, char b){
-  if(a == b)
+int compare(char a, char b) {
+  if (a == b)
     return 1;
-  if(a <= 'Z' && b <= 'Z')
+  if (a <= 'Z' && b <= 'Z')
     return 0;
-  if(a >= 'a' && b >= 'a')
+  if (a >= 'a' && b >= 'a')
     return 0;
-  if(a <= 'Z' && b >= 'a')
-    return (a-'A')-(b-'a') == 0;
-  if(b <= 'Z' && a >= 'a')
-    return (b-'A')-(a-'a') == 0;
+  if (a <= 'Z' && b >= 'a')
+    return (a - 'A') - (b - 'a') == 0;
+  if (b <= 'Z' && a >= 'a')
+    return (b - 'A') - (a - 'a') == 0;
   return 0;
 }
 

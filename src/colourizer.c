@@ -7,12 +7,13 @@
 #include <stdlib.h>
 
 void chunk_init(chunk *chunk) {
+  // allocate space for kmp table
   for (chunk->len = 0; chunk->match[chunk->len]; chunk->len++)
     ;
   chunk->kmptable = (int *)malloc(sizeof(int) * chunk->len);
 
-  int j = 0;
-  for (int i = 1; i < chunk->len;) {
+  // generate kmp table
+  for (int i = 1, j = 0; i < chunk->len;) {
     if (compare(chunk->match[i], chunk->match[j])) {
       j++;
       chunk->kmptable[i] = j;
@@ -28,7 +29,10 @@ void chunk_init(chunk *chunk) {
   }
 }
 
+// print ansi sequence associated with given chunk
 void start_colour(chunk current, chunk begin, chunk before) {
+
+  // avoid repeating same colour
   if (!is_different_colour(current, before))
     return;
 
@@ -45,12 +49,6 @@ void start_colour(chunk current, chunk begin, chunk before) {
 }
 
 void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
-  /*
-    index of currently active chunk
-    chunk on active index will be ignored
-    chunks of same colour should also be ignored
-  */
-
   int active_chunk = -1, // index of chunk whose colour is currently enabled
       matches = 0;       // number of matches in string
   int *indicies,         // index of matching string
@@ -119,12 +117,12 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
     printf("%c", str[i]);
   }
 
-  free(indicies);
-  free(matching_chunk);
-
   while (str[i]) {
     printf("%c", str[i++]);
   }
+
+  free(indicies);
+  free(matching_chunk);
 
   // reset colour
   printf("\033[0m");
