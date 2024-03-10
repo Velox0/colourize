@@ -2,6 +2,8 @@
 #define CLUSTERFUDGE
 #include "colourizer.h"
 
+int compare(char a, char b);
+
 void sort(int *index, int *chunk_index, int matches);
 
 // position of matching string

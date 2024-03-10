@@ -13,7 +13,7 @@ void chunk_init(chunk *chunk) {
 
   int j = 0;
   for (int i = 1; i < chunk->len;) {
-    if (chunk->match[i] == chunk->match[j]) {
+    if (compare(chunk->match[i], chunk->match[j])) {
       j++;
       chunk->kmptable[i] = j;
       i++;

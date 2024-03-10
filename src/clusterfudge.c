@@ -2,12 +2,26 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+int compare(char a, char b){
+  if(a == b)
+    return 1;
+  if(a <= 'Z' && b <= 'Z')
+    return 0;
+  if(a >= 'a' && b >= 'a')
+    return 0;
+  if(a <= 'Z' && b >= 'a')
+    return (a-'A')-(b-'a') == 0;
+  if(b <= 'Z' && a >= 'a')
+    return (b-'A')-(a-'a') == 0;
+  return 0;
+}
+
 int match(chunk chunk, const char *str, int start, int f) {
   if (f && chunk.type == FROM)
     start += chunk.len;
   int i, j = 0;
   for (i = start; str[i] != 0 && j < chunk.len;) {
-    if (chunk.match[j] == str[i]) {
+    if (compare(chunk.match[j], str[i])) {
       j++;
       i++;
     } else if (j > 0) {
