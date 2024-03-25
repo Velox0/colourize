@@ -24,22 +24,24 @@ char get_option(const char *opt) {
   return '\0';
 }
 
-void help(const char *arg) {
-  char red[] = "\033[0;31m";
-  char green[] = "\033[0;32m";
-  char normal[] = "\033[0;0m";
+void usage(const char *arg) {
+  char red[] = "\e[0;31m";
+  char green[] = "\e[0;32m";
+  char normal[] = "\e[0;0m";
 
   printf("Usage: %scommand %s|%s %s %s[OPTIONS]%s\n", green, red, green, arg,
          red, normal);
 
   printf("  -a, --after    \t"
-         "Apply <colour> formatting to text after matching <string>\n");
-  printf("  -f, --from     \t"
+         "Apply <colour> formatting to text after matching <string>"
+
+         "\n  -f, --from     \t"
          "Apply <colour> formatting to text starting from the match of <string>"
-         "\n");
-  printf("  -r, --reset-on \t"
-         "Reset text colour to normal after matching <string>\n");
-  printf("  Note: Combining short options is not supported!\n");
+
+         "\n  -r, --reset-on \t"
+         "Reset text colour to normal after matching <string>"
+         
+         "\n  Note: Combining short options is not supported!\n");
   exit(0);
 }
 

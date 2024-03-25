@@ -40,7 +40,7 @@ void start_colour(chunk current, chunk begin, chunk before) {
     if (begin.colourtype == 4)
       start4(begin.colour.colour4, NOBG);
     else
-      printf("\033[0m");
+      printf("\e[0m");
   } else if (current.colourtype == 4) {
     start4(current.colour.colour4, NOBG);
   } else if (current.colourtype == 24) {
@@ -101,7 +101,7 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   int i;
   for (i = 0; str[i] && current_match < matches; i++) {
     if (str[i] == '\n') {
-      printf("\033[0m\n");
+      printf("\e[0m\n");
       continue;
     }
 
@@ -125,5 +125,5 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   free(matching_chunk);
 
   // reset colour
-  printf("\033[0m");
+  printf("\e[0m");
 }

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HELP help(argv[0]);
+#define HELP usage(argv[0]);
 
 int main(int argc, char *argv[]) {
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
       chunks[current_chunk].type = RESETON;
       break;
     case 'v':
-      printf("Colourizer \033[34m" CLRVERSION "\033[0m\n");
+      printf("Colourizer \e[34m" CLRVERSION "\e[0m\n");
       exit(0);
     default:
       fprintf(stderr, "Unknow option: %s\n\n", argv[arg_index]);
