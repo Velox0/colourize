@@ -12,7 +12,7 @@ depends on [libclr](https://www.github.com/velox0/libclr)
 
 # Overview
 
-Colourizer allows you to easily colourise text streams based on specified string patterns. It is designed to provide a simple yet powerful way to add custom colors to different parts of your text.
+Colourize allows you to easily colourise text streams based on specified string patterns. It is designed to provide a simple yet powerful way to add custom colors to different parts of your text.
 
 # Usage
 
@@ -24,7 +24,7 @@ stat image.png | clr red --after ": " green --reset-on "  "
 
 This command outputs the standard input in red. After encountering `: `, it formats the subsequent string in green. It then resets to red after encountering two consecutive spaces `  `.
 
-By default, the color definitions are read from `~/.config/colourizer/preset`.
+By default, the color definitions are read from `~/.config/colourize/preset`.
 
 ## Example
 
@@ -38,7 +38,7 @@ Valid colours include hexadecimal colours and `black`, `red`, `green`, `yellow`,
 
 # Customization
 
-To customize color presets, you can modify the configuration file located at `~/.config/colourizer/preset`. This file defines the default color mappings.
+To customize color presets, you can modify the configuration file located at `~/.config/colourize/preset`. This file defines the default color mappings.
 
 # Installation
 

@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[]) {
 
-  chunk begin; // defined in "colourizer.h"
+  chunk begin; // defined in "colourize.h"
   begin.colourtype = -1;
 
   int chunk_count = 0;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
       chunks[current_chunk].type = RESETON;
       break;
     case 'v':
-      printf("Colourizer \e[34m" CLRVERSION "\e[0m\n");
+      printf("colourize \e[34m" CLRVERSION "\e[0m\n");
       exit(0);
     default:
       fprintf(stderr, "Unknow option: %s\n\n", argv[arg_index]);
