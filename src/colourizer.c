@@ -57,6 +57,7 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
   indicies = (int *)malloc(sizeof(int) * 10);
   matching_chunk = (int *)malloc(sizeof(int) * 10); // assuming 10 matches
                                                     // will increase if required
+  indicies[0] = -1;
 
   for (int j = 0, start = 0, f = 0; j < chunk_count;) {
     // skip if no colour type
@@ -89,6 +90,11 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
     f = 1;
   }
 
+#ifdef DEBUG
+  if(indicies[0] == -1)
+  return;
+#endif
+
   sort(indicies, matching_chunk, matches);
 
   if (begin.colourtype == 4) {
@@ -105,7 +111,7 @@ void colourize(const char *str, chunk begin, chunk *chunks, int chunk_count) {
       continue;
     }
 
-    if (i == indicies[current_match]) {
+    if (i >= indicies[current_match]) {
       if (current_match == 0)
         start_colour(chunks[matching_chunk[current_match]], begin, begin);
       else
