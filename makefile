@@ -11,6 +11,9 @@ TARGET = clr
 
 all: $(TARGET)
 
+debug: $(OBJ_FILES)
+	$(CC) $(CCFLGS) -o $@ $^ -DDEBUG
+
 $(TARGET): $(OBJ_FILES)
 	$(CC) $(CCFLGS) -o $@ $^
 
